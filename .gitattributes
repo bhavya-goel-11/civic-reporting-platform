@@ -1,0 +1,18 @@
+# Enforce LF line endings for all text files
+* text=auto eol=lf
+
+# Specific files
+*.sh text eol=lf
+*.ts text eol=lf
+*.tsx text eol=lf
+*.js text eol=lf
+*.jsx text eol=lf
+*.css text eol=lf
+*.md text eol=lf
+
+# Do not normalize images/binaries
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
