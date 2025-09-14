@@ -14,16 +14,16 @@ export default function Header() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="w-full border-b border-zinc-200/70 bg-white/80 backdrop-blur supports-[backdrop-filter]:bg-white/60 dark:border-zinc-800 dark:bg-zinc-950/70 dark:supports-[backdrop-filter]:bg-zinc-950/40 sticky top-0 z-50">
+    <header className="w-full border-b border-amber-200/70 bg-gradient-to-b from-amber-50 via-stone-50 to-amber-100 dark:border-stone-800 dark:from-stone-950 dark:via-stone-900 dark:to-stone-900 sticky top-0 z-50 shadow-sm">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between gap-4">
           {/* Brand */}
           <div className="flex items-center gap-2">
             <Link href="/" className="flex items-center gap-2 group">
-              <div className="h-8 w-8 rounded-md bg-gradient-to-br from-sky-500 via-indigo-500 to-violet-500 shadow ring-1 ring-black/10 dark:ring-white/10 flex items-center justify-center text-white font-semibold text-sm group-hover:scale-105 transition">
+              <div className="h-8 w-8 rounded-md bg-gradient-to-br from-amber-500 via-orange-500 to-stone-500 shadow ring-1 ring-black/10 dark:ring-white/10 flex items-center justify-center text-white font-semibold text-sm group-hover:scale-105 transition">
                 CC
               </div>
-              <span className="text-xl font-semibold tracking-tight text-zinc-800 dark:text-zinc-100">
+              <span className="text-xl font-semibold tracking-tight text-stone-900 dark:text-stone-100">
                 CivicConnect
               </span>
             </Link>
@@ -33,25 +33,25 @@ export default function Header() {
           <nav className="hidden md:flex items-center gap-2 ml-auto">
             <Link
               href="/report"
-              className="inline-flex items-center gap-1 rounded-md bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:from-indigo-500 hover:to-violet-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition"
+              className="inline-flex items-center gap-1 rounded-md bg-amber-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 transition"
             >
               Report Issue
             </Link>
             <Link
               href="/track"
-              className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-800 transition"
+              className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-amber-50 dark:text-stone-300 dark:hover:text-white dark:hover:bg-stone-800 transition"
             >
               Track Issue
             </Link>
             <Link
               href="/map"
-              className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-800 transition"
+              className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-amber-50 dark:text-stone-300 dark:hover:text-white dark:hover:bg-stone-800 transition"
             >
               View All Reports
             </Link>
             <Link
               href="/admin"
-              className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-800 transition"
+              className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-amber-50 dark:text-stone-300 dark:hover:text-white dark:hover:bg-stone-800 transition"
             >
               User Login
             </Link>
@@ -64,7 +64,7 @@ export default function Header() {
               aria-controls="mobile-menu"
               aria-expanded={open}
               onClick={() => setOpen(o => !o)}
-              className="inline-flex items-center justify-center rounded-md p-2 text-zinc-600 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-800 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 transition"
+              className="inline-flex items-center justify-center rounded-md p-2 text-stone-600 hover:text-stone-900 hover:bg-amber-50 dark:text-stone-300 dark:hover:text-white dark:hover:bg-stone-800 focus:outline-none focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-600 transition"
             >
               <span className="sr-only">Toggle navigation</span>
               <svg
@@ -96,31 +96,31 @@ export default function Header() {
         id="mobile-menu"
         className={`md:hidden overflow-hidden transition-[max-height] duration-300 ease-in-out ${open ? 'max-h-96' : 'max-h-0'}`}
       >
-        <div className="space-y-1 px-4 pb-6 pt-2 border-t border-zinc-200/70 dark:border-zinc-800 bg-white/90 backdrop-blur dark:bg-zinc-950/80">
+        <div className="space-y-1 px-4 pb-6 pt-2 border-t border-amber-200/70 dark:border-stone-800 bg-white/90 backdrop-blur dark:bg-stone-950/80">
           <Link
             href="/report"
-            className="block rounded-md bg-gradient-to-r from-indigo-600 to-violet-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:from-indigo-500 hover:to-violet-500 transition"
+            className="block rounded-md bg-amber-800 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-amber-700 transition"
             onClick={() => setOpen(false)}
           >
             Report Issue
           </Link>
           <Link
             href="/track"
-            className="block rounded-md px-4 py-2 text-sm font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-800 transition"
+            className="block rounded-md px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-amber-50 dark:text-stone-300 dark:hover:text-white dark:hover:bg-stone-800 transition"
             onClick={() => setOpen(false)}
           >
             Track Issue
           </Link>
           <Link
             href="/map"
-            className="block rounded-md px-4 py-2 text-sm font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-800 transition"
+            className="block rounded-md px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-amber-50 dark:text-stone-300 dark:hover:text-white dark:hover:bg-stone-800 transition"
             onClick={() => setOpen(false)}
           >
             View All Reports
           </Link>
           <Link
             href="/admin"
-            className="block rounded-md px-4 py-2 text-sm font-medium text-zinc-700 hover:text-zinc-900 hover:bg-zinc-100 dark:text-zinc-300 dark:hover:text-white dark:hover:bg-zinc-800 transition"
+            className="block rounded-md px-4 py-2 text-sm font-medium text-stone-700 hover:text-stone-900 hover:bg-amber-50 dark:text-stone-300 dark:hover:text-white dark:hover:bg-stone-800 transition"
             onClick={() => setOpen(false)}
           >
             Admin Login
