@@ -9,7 +9,11 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "infoPlist": {
+        "NSPhotoLibraryUsageDescription": "We need access to your photo library so you can upload an image of the issue.",
+        "NSCameraUsageDescription": "We need camera access if you choose to take a photo of the issue."
+      }
     },
     "android": {
       "adaptiveIcon": {

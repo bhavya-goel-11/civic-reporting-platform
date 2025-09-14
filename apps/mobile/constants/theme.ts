@@ -5,8 +5,9 @@
 
 import { Platform } from 'react-native';
 
-const tintColorLight = '#0a7ea4';
-const tintColorDark = '#fff';
+// Align mobile brand tint with web (amber tone)
+const tintColorLight = '#92400E'; // amber-800
+const tintColorDark = '#FBBF24'; // amber-400 for dark
 
 export const Colors = {
   light: {
