@@ -35,6 +35,7 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* How It Works Section */}
       <section className="relative py-20 bg-white dark:bg-zinc-950" aria-labelledby="how-it-works-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
@@ -77,8 +78,9 @@ export default function Home() {
           </div>
         </div>
       </section>
+
       {/* Mini Map Preview */}
-  <section className="relative py-20 bg-amber-50/50 dark:bg-stone-900/40 border-y border-amber-200/60 dark:border-stone-800" aria-labelledby="mini-map-heading">
+      <section className="relative py-20 bg-amber-50/50 dark:bg-stone-900/40 border-y border-amber-200/60 dark:border-stone-800" aria-labelledby="mini-map-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col lg:flex-row gap-12 items-center">
             <div className="flex-1 w-full">
@@ -118,7 +120,7 @@ export default function Home() {
         </div>
       </section>
       {/* Why Use This */}
-  <section className="relative py-24 bg-white dark:bg-zinc-950" aria-labelledby="why-use-heading">
+      <section className="relative py-24 bg-white dark:bg-zinc-950" aria-labelledby="why-use-heading">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <h2 id="why-use-heading" className="text-2xl sm:text-3xl font-semibold tracking-tight text-center text-zinc-800 dark:text-zinc-100">
             Why Use This Platform
@@ -148,40 +150,40 @@ export default function Home() {
           </div>
         </div>
       </section>
-        {/* Call To Action Banner */}
-  <section className="relative py-28 bg-gradient-to-br from-amber-50 via-stone-50 to-amber-100 dark:from-stone-950 dark:via-stone-900 dark:to-stone-900" aria-labelledby="final-cta-heading">
-          <div className="absolute inset-0 opacity-20 mix-blend-overlay" aria-hidden>
-            <svg aria-hidden className="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-              <defs>
-                <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                  <path d="M40 0H0V40" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                </pattern>
-              </defs>
-              <rect width="100%" height="100%" fill="url(#grid)" />
-            </svg>
-          </div>
-          <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center text-stone-900 dark:text-stone-100">
-            <h2 id="final-cta-heading" className="text-3xl sm:text-4xl font-bold tracking-tight max-w-3xl">
-              Ready to help improve your city?
-            </h2>
-              <p className="mt-5 text-lg text-stone-700 dark:text-stone-300 max-w-2xl">
-              Report issues in seconds and see real progress as they get resolved.
-            </p>
-            <div className="mt-10 flex flex-col sm:flex-row items-center gap-5">
-              <Link href="/report" className="inline-flex items-center justify-center rounded-xl bg-amber-800 text-white font-semibold px-10 py-4 text-base shadow-sm hover:bg-amber-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 transition">
-                Start Reporting Now
-              </Link>
-              <div className="flex items-center gap-3" aria-label="App store badges (coming soon)">
-                <div className="h-12 w-36 rounded-lg border border-amber-300 dark:border-stone-700 flex items-center justify-center text-xs font-medium tracking-wide uppercase text-stone-700 dark:text-stone-200 bg-white/60 dark:bg-white/5 backdrop-blur-sm">
-                  App Store
-                </div>
-                <div className="h-12 w-36 rounded-lg border border-amber-300 dark:border-stone-700 flex items-center justify-center text-xs font-medium tracking-wide uppercase text-stone-700 dark:text-stone-200 bg-white/60 dark:bg-white/5 backdrop-blur-sm">
-                  Play Store
-                </div>
+      {/* Call To Action Banner */}
+      <section className="relative py-28 bg-gradient-to-br from-amber-50 via-stone-50 to-amber-100 dark:from-stone-950 dark:via-stone-900 dark:to-stone-900" aria-labelledby="final-cta-heading">
+        <div className="absolute inset-0 opacity-20 mix-blend-overlay" aria-hidden>
+          <svg aria-hidden className="w-full h-full object-cover" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+            <defs>
+              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+                <path d="M40 0H0V40" fill="none" stroke="currentColor" strokeWidth="0.5" />
+              </pattern>
+            </defs>
+            <rect width="100%" height="100%" fill="url(#grid)" />
+          </svg>
+        </div>
+        <div className="relative mx-auto max-w-5xl px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center text-stone-900 dark:text-stone-100">
+          <h2 id="final-cta-heading" className="text-3xl sm:text-4xl font-bold tracking-tight max-w-3xl">
+            Ready to help improve your city?
+          </h2>
+          <p className="mt-5 text-lg text-stone-700 dark:text-stone-300 max-w-2xl">
+            Report issues in seconds and see real progress as they get resolved.
+          </p>
+          <div className="mt-10 flex flex-col sm:flex-row items-center gap-5">
+            <Link href="/report" className="inline-flex items-center justify-center rounded-xl bg-amber-800 text-white font-semibold px-10 py-4 text-base shadow-sm hover:bg-amber-700 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-amber-700 transition">
+              Start Reporting Now
+            </Link>
+            <div className="flex items-center gap-3" aria-label="App store badges (coming soon)">
+              <div className="h-12 w-36 rounded-lg border border-amber-300 dark:border-stone-700 flex items-center justify-center text-xs font-medium tracking-wide uppercase text-stone-700 dark:text-stone-200 bg-white/60 dark:bg-white/5 backdrop-blur-sm">
+                App Store
+              </div>
+              <div className="h-12 w-36 rounded-lg border border-amber-300 dark:border-stone-700 flex items-center justify-center text-xs font-medium tracking-wide uppercase text-stone-700 dark:text-stone-200 bg-white/60 dark:bg-white/5 backdrop-blur-sm">
+                Play Store
               </div>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
     </div>
   );
 }
