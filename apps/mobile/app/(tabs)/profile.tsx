@@ -2,17 +2,16 @@ import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
 export default function ProfileScreen() {
   const colorScheme = useColorScheme() ?? 'light';
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: colorScheme === 'dark' ? '#0c0c0c' : '#FFF7ED' }]}> 
-      <ThemedView style={styles.header}> 
-        <ThemedText type="title">👤 Profile</ThemedText>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' }]}> 
+      <View style={styles.header}> 
+        <ThemedText type="title" style={styles.headerTitle}>👤 Profile</ThemedText>
         <ThemedText>Manage your account and preferences.</ThemedText>
-      </ThemedView>
+      </View>
       <View style={{ padding: 16 }}>
         <Text style={{ opacity: 0.8 }}>Coming soon.</Text>
       </View>
@@ -22,5 +21,6 @@ export default function ProfileScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1 },
-  header: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 4 },
+  header: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 8 },
+  headerTitle: { lineHeight: 40 },
 });

@@ -2,7 +2,6 @@ import React from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 
@@ -18,11 +17,11 @@ export default function TrackScreen() {
   const colorScheme = useColorScheme() ?? 'light';
   const c = Colors[colorScheme];
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: colorScheme === 'dark' ? '#0c0c0c' : '#FFF7ED' }]}> 
-      <ThemedView style={styles.header}> 
-        <ThemedText type="title">📍 Track Issues</ThemedText>
+    <SafeAreaView style={[styles.safe, { backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' }]}> 
+      <View style={styles.header}> 
+        <ThemedText type="title" style={styles.headerTitle}>📍 Track Issues</ThemedText>
         <ThemedText>View the status of your submitted reports.</ThemedText>
-      </ThemedView>
+      </View>
       <FlatList
         contentContainerStyle={{ padding: 16, gap: 12 }}
         data={DATA}
@@ -42,7 +41,8 @@ export default function TrackScreen() {
 
 const styles = StyleSheet.create({
   safe: { flex: 1 },
-  header: { paddingHorizontal: 16, paddingTop: 12, paddingBottom: 4 },
+  header: { paddingHorizontal: 16, paddingTop: 16, paddingBottom: 8 },
+  headerTitle: { lineHeight: 40 },
   card: {
     borderWidth: 1,
     borderRadius: 12,

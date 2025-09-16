@@ -3,7 +3,6 @@ import { Alert, Image as RNImage, Platform, Pressable, ScrollView, StyleSheet, T
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 
@@ -74,24 +73,24 @@ export default function ReportScreen() {
   }
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: colorScheme === 'dark' ? '#0c0c0c' : '#FFF7ED' }]}>
+    <SafeAreaView style={[styles.safeArea, { backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' }]}>
       <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
-        <ThemedView style={styles.headerBlock}>
+        <View style={styles.headerBlock}>
           <ThemedText type="title">📝 Report an Issue</ThemedText>
           <ThemedText style={styles.headerSub}>
             Help us fix problems in your area. Upload a photo and add a short description.
           </ThemedText>
-        </ThemedView>
+        </View>
 
         {/* Photo upload */}
         <View style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)' }]}> 
           <Text style={[styles.label, { color: colorScheme === 'dark' ? '#E5E7EB' : '#1F2937' }]}>Upload a photo <Text style={{ color: '#DC2626' }}>*</Text></Text>
 
           <Pressable onPress={pickImage} style={styles.dropZone} android_ripple={{ color: '#f1c971' }}>
-            <Text style={{ color: colorScheme === 'dark' ? '#FBBF24' : '#92400E', fontWeight: '600' }}>
+            <Text style={{ color: colorScheme === 'dark' ? '#FBBF24' : '#92400E', fontWeight: '600', textAlign: 'center' }}>
               Tap to choose a file
             </Text>
-            <Text style={{ color: colorScheme === 'dark' ? '#9CA3AF' : '#6B7280', fontSize: 12, marginTop: 4 }}>
+            <Text className="font-bold" style={{ color: colorScheme === 'dark' ? '#FFFFFF' : '#6B7280', fontSize: 12, marginTop: 4 }}>
               Accepted formats: JPG, PNG (max 5MB)
             </Text>
             {image?.uri ? (
@@ -169,6 +168,8 @@ const styles = StyleSheet.create({
   },
   headerBlock: {
     gap: 6,
+    paddingTop: 4,
+    paddingBottom: 0,
   },
   headerSub: {
     opacity: 0.9,
