@@ -23,28 +23,28 @@ export default function HomeScreen() {
     () => [
       {
         id: '1',
-        image: require('../../assets/images/splash-icon.png'),
+        image: require('../../assets/images/cat1.png'),
         description: 'Large pothole forming near Main & 3rd. Cars swerving to avoid it.',
         upvotes: 124,
         downvotes: 3,
       },
       {
         id: '2',
-        image: require('../../assets/images/react-logo.png'),
+        image: require('../../assets/images/cat2.png'),
         description: 'Broken streetlight flickers all night in Sector 5 — very dark for pedestrians.',
         upvotes: 56,
         downvotes: 9,
       },
       {
         id: '3',
-        image: require('../../assets/images/android-icon-foreground.png'),
+        image: require('../../assets/images/cat3.png'),
         description: 'Overflowing trash bin by the park entrance. Needs pickup.',
         upvotes: 18,
         downvotes: 1,
       },
       {
         id: '4',
-        image: require('../../assets/images/partial-react-logo.png'),
+        image: require('../../assets/images/IMG_3259.png'),
         description: 'Fallen tree branch blocking part of the sidewalk on Oak Avenue.',
         upvotes: 2,
         downvotes: 7,
