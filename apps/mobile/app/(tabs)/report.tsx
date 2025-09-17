@@ -1,10 +1,13 @@
 import React from 'react';
-import { Alert, Image as RNImage, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View } from 'react-native';
+import { Alert, Image as RNImage, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { supabase } from '@/lib/supabase';
+import { uploadImageToSupabase } from '@/lib/upload';
+import type { Database } from '@/types/supabase';
 
 export default function ReportScreen() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -59,7 +62,9 @@ export default function ReportScreen() {
     setError(null);
   }
 
-  function onSubmit() {
+  const [isSubmitting, setIsSubmitting] = React.useState(false);
+
+  async function onSubmit() {
     if (!image) {
       setError('Please upload a photo (JPG or PNG, max 5MB).');
       return;
@@ -68,8 +73,36 @@ export default function ReportScreen() {
       setError('Please add a short description of the issue.');
       return;
     }
-    Alert.alert('Report submitted', 'Thank you for helping improve your city.');
-    resetForm();
+
+    setIsSubmitting(true);
+    setError(null);
+
+    try {
+      // Upload image to Supabase Storage
+      const imageUrl = await uploadImageToSupabase(image.uri);
+
+      // Create the report in the database
+      const insertData = {
+        description: description.trim(),
+        image_url: imageUrl,
+        status: 'pending' as const,
+      };
+      
+      const { error: insertError } = await supabase
+        .from('reports')
+        .insert([insertData]);
+
+      if (insertError) throw insertError;
+
+      Alert.alert('Report submitted', 'Thank you for helping improve your city.');
+      resetForm();
+    } catch (err: any) {
+      const errorMessage = err.message || err.error_description || 'Failed to submit report. Please try again.';
+      setError(errorMessage);
+      console.error('Submit error:', err);
+    } finally {
+      setIsSubmitting(false);
+    }
   }
 
   return (
@@ -135,15 +168,23 @@ export default function ReportScreen() {
         <View style={styles.actionsRow}>
           <Pressable
             onPress={onSubmit}
+            disabled={isSubmitting}
             style={({ pressed }) => [
               styles.primaryBtn,
-              { backgroundColor: pressed ? '#92400E' : c.tint },
+              { 
+                backgroundColor: isSubmitting ? '#92400E' : (pressed ? '#92400E' : c.tint),
+                opacity: isSubmitting ? 0.7 : 1
+              },
             ]}
             android_ripple={{ color: '#f0d5a2' }}
             accessibilityRole="button"
             accessibilityLabel="Submit Report"
           >
-            <Text style={styles.primaryBtnText}>Submit Report</Text>
+            {isSubmitting ? (
+              <ActivityIndicator color="#FFFFFF" />
+            ) : (
+              <Text style={styles.primaryBtnText}>Submit Report</Text>
+            )}
           </Pressable>
           <Pressable
             onPress={resetForm}
