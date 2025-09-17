@@ -21,6 +21,9 @@ const MAPPING = {
   'person.fill': 'person',
   'chevron.left.forwardslash.chevron.right': 'code',
   'chevron.right': 'chevron-right',
+  // Newly added mappings for search UX in headers
+  'magnifyingglass': 'search',
+  'xmark': 'close',
 } as IconMapping;
 
 /**
