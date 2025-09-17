@@ -34,6 +34,8 @@ export default function TabLayout() {
           ),
         }}
       />
+      {/** Disabled Track tab **/}
+      {/**
       <Tabs.Screen
         name="track"
         options={{
@@ -43,6 +45,13 @@ export default function TabLayout() {
           ),
         }}
       />
+      */}
+      <Tabs.Screen
+        name="track"
+        options={{
+          href: null,
+        }}
+      />
       <Tabs.Screen
         name="profile"
         options={{
@@ -50,6 +59,12 @@ export default function TabLayout() {
           tabBarIcon: ({ color }) => (
             <IconSymbol size={30} name="person.fill" color={color} />
           ),
+        }}
+      />
+      <Tabs.Screen
+        name="explore"
+        options={{
+          href: null, // hides from tab bar and deep linking
         }}
       />
     </Tabs>
