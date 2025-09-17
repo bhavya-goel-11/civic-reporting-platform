@@ -10,5 +10,8 @@
     "mobile:ios": "npm run --workspace apps/mobile ios",
     "mobile:android": "npm run --workspace apps/mobile android",
     "mobile:web": "npm run --workspace apps/mobile web"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.57.4"
   }
 }
