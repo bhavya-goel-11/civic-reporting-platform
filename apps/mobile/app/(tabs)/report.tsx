@@ -168,7 +168,7 @@ export default function ReportScreen() {
             }]}
             onFocus={() => {
               // Nudge scroll so the input isn't hidden by the keyboard
-              const y = Math.max(0, descY - 100);
+              const y = Math.max(0, descY - 160);
               scrollRef.current?.scrollTo({ y, animated: true });
             }}
           />
