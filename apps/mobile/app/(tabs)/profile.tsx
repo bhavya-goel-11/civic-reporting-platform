@@ -1,6 +1,5 @@
 import React, { useMemo } from 'react';
 import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 
@@ -84,7 +83,7 @@ export default function ProfileScreen() {
   );
 
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: scheme === 'dark' ? '#0B0B0B' : '#FAFAFA' }]}> 
+    <View style={[styles.safe, { backgroundColor: scheme === 'dark' ? '#000000' : '#FFF7ED' }]}> 
       <FlatList
         data={reports}
         keyExtractor={(item) => item.id}
@@ -146,7 +145,7 @@ export default function ProfileScreen() {
           );
         }}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -179,7 +178,6 @@ const styles = StyleSheet.create({
   // Reuse feed card style from home
   feedContent: {
     padding: 12,
-    paddingBottom: 24,
   },
   feedRow: {
     flexDirection: 'row',

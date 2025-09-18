@@ -1,6 +1,5 @@
 import React, { useMemo, useState } from 'react';
 import { View, Text, TouchableOpacity, FlatList, StyleSheet, Image, Dimensions, TextInput } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { IconSymbol } from '@/components/ui/icon-symbol';
@@ -54,7 +53,8 @@ export default function HomeScreen() {
   );
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: scheme === 'dark' ? '#0B0B0B' : '#FAFAFA' }]}>
+    <View style={[styles.safeArea, { backgroundColor: scheme === 'dark' ? '#000000' : '#FFF7ED' }]}> 
+      {/* Header */}
       {/* Top Header */}
       <View style={styles.topBar}>
         <View style={styles.topBarLeft}>
@@ -141,7 +141,7 @@ export default function HomeScreen() {
           );
         }}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 
@@ -195,7 +195,6 @@ const styles = StyleSheet.create({
 
   feedContent: {
     padding: 12,
-    paddingBottom: 24,
   },
   feedRow: {
     flexDirection: 'row',

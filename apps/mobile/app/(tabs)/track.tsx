@@ -1,6 +1,5 @@
 import React from 'react';
 import { FlatList, Pressable, StyleSheet, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 import { ThemedText } from '@/components/themed-text';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
@@ -17,7 +16,7 @@ export default function TrackScreen() {
   const colorScheme = useColorScheme() ?? 'light';
   const c = Colors[colorScheme];
   return (
-    <SafeAreaView style={[styles.safe, { backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' }]}> 
+    <View style={[styles.safe, { backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' }]}> 
       <View style={styles.header}> 
         <ThemedText type="title" style={styles.headerTitle}>📍 Track Issues</ThemedText>
         <ThemedText>View the status of your submitted reports.</ThemedText>
@@ -35,7 +34,7 @@ export default function TrackScreen() {
           </Pressable>
         )}
       />
-    </SafeAreaView>
+    </View>
   );
 }
 

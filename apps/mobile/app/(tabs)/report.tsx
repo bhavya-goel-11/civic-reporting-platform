@@ -1,6 +1,5 @@
 import React from 'react';
-import { Alert, Image as RNImage, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+import { Alert, Image as RNImage, Platform, Pressable, ScrollView, StyleSheet, Text, TextInput, View, ActivityIndicator, KeyboardAvoidingView } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import { ThemedText } from '@/components/themed-text';
 import { Colors } from '@/constants/theme';
@@ -16,6 +15,8 @@ export default function ReportScreen() {
   const [description, setDescription] = React.useState('');
   const [error, setError] = React.useState<string | null>(null);
   const pickingRef = React.useRef(false);
+  const scrollRef = React.useRef<ScrollView | null>(null);
+  const [descY, setDescY] = React.useState(0);
 
   async function pickImage() {
     if (pickingRef.current) return;
@@ -106,8 +107,19 @@ export default function ReportScreen() {
   }
 
   return (
-    <SafeAreaView style={[styles.safeArea, { backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' }]}>
-      <ScrollView contentContainerStyle={styles.container} keyboardShouldPersistTaps="handled">
+  <View style={[styles.safeArea, { backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' }]}>
+      <KeyboardAvoidingView
+        style={{ flex: 1 }}
+        behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+        keyboardVerticalOffset={Platform.select({ ios: 64, android: 0 })}
+      >
+      <ScrollView
+        ref={scrollRef}
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+        keyboardDismissMode="on-drag"
+        automaticallyAdjustKeyboardInsets
+      >
         <View style={styles.headerBlock}>
           <ThemedText type="title">📝 Report an Issue</ThemedText>
           <ThemedText style={styles.headerSub}>
@@ -117,7 +129,7 @@ export default function ReportScreen() {
 
         {/* Photo upload */}
         <View style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)' }]}> 
-          <Text style={[styles.label, { color: colorScheme === 'dark' ? '#E5E7EB' : '#1F2937' }]}>Upload a photo <Text style={{ color: '#DC2626' }}>*</Text></Text>
+          <Text style={[styles.label, { color: colorScheme === 'dark' ? '#E5E7EB' : '#1F2937' }]}>Upload a photo<Text style={{ color: '#DC2626' }}>*</Text></Text>
 
           <Pressable onPress={pickImage} style={styles.dropZone} android_ripple={{ color: '#f1c971' }}>
             <Text style={{ color: colorScheme === 'dark' ? '#FBBF24' : '#92400E', fontWeight: '600', textAlign: 'center' }}>
@@ -137,7 +149,10 @@ export default function ReportScreen() {
         </View>
 
         {/* Description */}
-        <View style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)' }]}> 
+        <View
+          style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)' }]}
+          onLayout={(e) => setDescY(e.nativeEvent.layout.y)}
+        > 
           <Text style={[styles.label, { color: colorScheme === 'dark' ? '#E5E7EB' : '#1F2937' }]}>Describe the issue <Text style={{ color: '#DC2626' }}>*</Text></Text>
           <TextInput
             value={description}
@@ -151,6 +166,11 @@ export default function ReportScreen() {
               borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B',
               backgroundColor: colorScheme === 'dark' ? 'rgba(23,23,23,0.8)' : '#FFFFFF',
             }]}
+            onFocus={() => {
+              // Nudge scroll so the input isn't hidden by the keyboard
+              const y = Math.max(0, descY - 100);
+              scrollRef.current?.scrollTo({ y, animated: true });
+            }}
           />
         </View>
 
@@ -194,8 +214,10 @@ export default function ReportScreen() {
             <Text style={[styles.linkText, { color: colorScheme === 'dark' ? '#E5E7EB' : '#111827' }]}>Cancel</Text>
           </Pressable>
         </View>
+        {/* Spacer removed to avoid extra space above bottom tab bar */}
       </ScrollView>
-    </SafeAreaView>
+      </KeyboardAvoidingView>
+    </View>
   );
 }
 
