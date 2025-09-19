@@ -10,6 +10,8 @@ export interface Database {
           location?: { lat: number; lng: number } | null
           created_at: string
           updated_at: string
+          upvotes: number
+          downvotes: number
         }
         Insert: {
           id?: string
@@ -19,6 +21,8 @@ export interface Database {
           location?: { lat: number; lng: number } | null
           created_at?: string
           updated_at?: string
+          upvotes?: number
+          downvotes?: number
         }
         Update: {
           id?: string
@@ -27,6 +31,8 @@ export interface Database {
           status?: 'pending' | 'in_progress' | 'resolved'
           location?: { lat: number; lng: number } | null
           updated_at?: string
+          upvotes?: number
+          downvotes?: number
         }
       }
     }
