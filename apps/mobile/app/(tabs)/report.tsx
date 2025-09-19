@@ -22,6 +22,7 @@ import LoginRequired from '@/components/LoginRequired';
 import { supabase } from '@/lib/supabase';
 import { uploadImageToSupabase } from '@/lib/upload';
 import { useEffect, useState } from 'react';
+import type { Database } from '../../types/supabase';
 
 export default function ReportScreen() {
   const colorScheme = useColorScheme() ?? 'light';
@@ -132,15 +133,15 @@ export default function ReportScreen() {
 
     try {
       const imageUrl = await uploadImageToSupabase(image.uri);
-      const insertData = {
+      const insertData: Database['public']['Tables']['reports']['Insert'] = {
         description: description.trim(),
         image_url: imageUrl,
-        status: 'pending' as const,
+        status: 'pending',
         location: location ? { lat: location.latitude, lng: location.longitude } : null,
         user_id: session.user.id,
       };
       const { error: insertError } = await supabase
-        .from('reports')
+        .from<Database['public']['Tables']['reports']['Row'], Database['public']['Tables']['reports']['Insert']>('reports')
         .insert([insertData]);
       if (insertError) throw insertError;
       Alert.alert('Report submitted', 'Thank you for helping improve your city.');

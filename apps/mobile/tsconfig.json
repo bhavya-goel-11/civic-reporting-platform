@@ -4,6 +4,11 @@
     "strict": true,
     "jsx": "react-native",
     "esModuleInterop": true,
+    "baseUrl": "./",
+    "typeRoots": [
+      "./types",
+      "../node_modules/@types"
+    ],
     "paths": {
       "@/*": [
         "./*"
