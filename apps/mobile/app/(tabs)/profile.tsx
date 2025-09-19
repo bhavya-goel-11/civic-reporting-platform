@@ -1,94 +1,202 @@
-import React, { useMemo } from 'react';
-import { StyleSheet, Text, View, Image, FlatList, TouchableOpacity, Dimensions } from 'react-native';
+import React, { useEffect, useState, useCallback } from 'react';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  Image, 
+  FlatList, 
+  TouchableOpacity, 
+  Dimensions, 
+  ActivityIndicator,
+  Pressable
+} from 'react-native';
 import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
+import { supabase } from '@/lib/supabase';
+import { useRouter } from 'expo-router';
+
+type Report = {
+  id: string;
+  image_url: string;
+  description: string;
+  upvotes: number;
+  downvotes: number;
+  status: 'pending' | 'in_progress' | 'resolved';
+};
 
 export default function ProfileScreen() {
   const scheme = useColorScheme() ?? 'light';
   const c = Colors[scheme];
+  const router = useRouter();
 
-  const user = useMemo(
-    () => ({
-      name: 'Alex Johnson',
-      email: 'alex.johnson@example.com',
-      role: 'Community Reporter',
-      avatar: require('../../assets/images/icon.png'),
-    }),
-    []
-  );
+  const [user, setUser] = useState<{ id: string; email: string } | null>(null);
+  const [reports, setReports] = useState<Report[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  type Report = {
-    id: string;
-    image: any; // require() source
-    description: string;
-    upvotes: number;
-    downvotes: number;
+  /** Fetch current logged-in user */
+  const fetchUser = useCallback(async () => {
+    const { data: { user }, error } = await supabase.auth.getUser();
+    if (error || !user) {
+      setUser(null);
+      setLoading(false);
+      return;
+    }
+    setUser({ id: user.id, email: user.email ?? '' });
+    setLoading(false);
+  }, []);
+
+  /** Fetch reports submitted by the logged-in user */
+  const fetchReports = useCallback(async (userId: string) => {
+    setLoading(true);
+    const { data, error } = await supabase
+      .from('reports')
+      .select('*')
+      .eq('user_id', userId) // filter by the logged-in user
+      .order('created_at', { ascending: false });
+
+    if (error) {
+      console.error('Error fetching reports:', error.message);
+      setError('Failed to load your reports.');
+    } else {
+      setReports(data || []);
+    }
+    setLoading(false);
+  }, []);
+
+  /** Load user when screen mounts */
+  useEffect(() => {
+    fetchUser();
+  }, [fetchUser]);
+
+  /** Once user is fetched, get their reports */
+  useEffect(() => {
+    if (user?.id) {
+      fetchReports(user.id);
+    }
+  }, [user, fetchReports]);
+
+  /** When user is not logged in */
+  if (!loading && !user) {
+    return (
+      <View
+        style={[
+          styles.safe,
+          { justifyContent: 'center', alignItems: 'center', backgroundColor: scheme === 'dark' ? '#000' : '#FFF7ED' },
+        ]}
+      >
+        <Text style={{ color: c.text, fontSize: 18, marginBottom: 16, textAlign: 'center' }}>
+          You must be logged in to view your profile and reports.
+        </Text>
+        <Pressable
+          style={({ pressed }) => [
+            styles.loginBtn,
+            {
+              backgroundColor: pressed ? '#92400E' : c.tint,
+            },
+          ]}
+          onPress={() => router.push('/auth/SignIn')}
+        >
+          <Text style={styles.loginBtnText}>Go to Login</Text>
+        </Pressable>
+      </View>
+    );
+  }
+
+  /** Loading state */
+  if (loading) {
+    return (
+      <View
+        style={[
+          styles.safe,
+          { justifyContent: 'center', alignItems: 'center', backgroundColor: scheme === 'dark' ? '#000' : '#FFF7ED' },
+        ]}
+      >
+        <ActivityIndicator size="large" color={c.tint} />
+        <Text style={{ marginTop: 8, color: c.text }}>Loading...</Text>
+      </View>
+    );
+  }
+
+  /** Render header with user info */
+  const renderHeader = () => {
+    if (!user) return null;
+
+    const handleSignOut = async () => {
+      await supabase.auth.signOut();
+      router.replace('/auth/SignIn');
+    };
+
+    return (
+      <View>
+        {/* User Info */}
+        <View style={styles.userInfoRow}>
+          <Image source={require('../../assets/images/icon.png')} style={styles.avatar} />
+          <View style={styles.userInfoCol}>
+            <Text style={[styles.userName, { color: c.text }]} numberOfLines={1}>
+              {user.email.split('@')[0] || 'Anonymous User'}
+            </Text>
+            <Text
+              style={[
+                styles.userEmail,
+                { color: scheme === 'dark' ? '#9BA1A6' : '#6B7280' },
+              ]}
+              numberOfLines={1}
+            >
+              {user.email}
+            </Text>
+            <Text
+              style={[
+                styles.userTagline,
+                { color: scheme === 'dark' ? '#9BA1A6' : '#6B7280' },
+              ]}
+            >
+              Community Reporter
+            </Text>
+            <Pressable
+              style={({ pressed }) => [
+                styles.signOutBtn,
+                { backgroundColor: pressed ? '#DC2626' : '#F59E0B', marginTop: 12 },
+              ]}
+              onPress={handleSignOut}
+            >
+              <Text style={styles.signOutBtnText}>Sign Out</Text>
+            </Pressable>
+          </View>
+        </View>
+
+        {/* Section Title */}
+        <Text style={[styles.sectionTitle, { color: c.text }]}>My Reports</Text>
+      </View>
+    );
   };
 
-  const reports: Report[] = useMemo(
-    () => [
-      {
-        id: 'r1',
-        image: require('../../assets/images/splash-icon.png'),
-        description: 'Graffiti on the north wall of the community center. Needs cleanup.',
-        upvotes: 42,
-        downvotes: 1,
-      },
-      {
-        id: 'r2',
-        image: require('../../assets/images/react-logo.png'),
-        description: 'Street sign at 7th & Pine is tilted and unreadable from the road.',
-        upvotes: 15,
-        downvotes: 0,
-      },
-      {
-        id: 'r3',
-        image: require('../../assets/images/android-icon-foreground.png'),
-        description: 'Playground swing chain seems loose; safety inspection recommended.',
-        upvotes: 7,
-        downvotes: 3,
-      },
-      {
-        id: 'r4',
-        image: require('../../assets/images/partial-react-logo.png'),
-        description: 'Drainage blocked on Maple St., water pooling after light rain.',
-        upvotes: 12,
-        downvotes: 4,
-      },
-    ],
-    []
-  );
-
-  const renderHeader = () => (
-    <View>
-      {/* User Info Section */}
-      <View style={styles.userInfoRow}>
-        <Image source={user.avatar} style={styles.avatar} />
-        <View style={styles.userInfoCol}>
-          <Text style={[styles.userName, { color: c.text }]} numberOfLines={1}>
-            {user.name}
-          </Text>
-          <Text style={[styles.userEmail, { color: scheme === 'dark' ? '#9BA1A6' : '#6B7280' }]} numberOfLines={1}>
-            {user.email}
-          </Text>
-          <Text style={[styles.userTagline, { color: scheme === 'dark' ? '#9BA1A6' : '#6B7280' }]} numberOfLines={1}>
-            {user.role}
-          </Text>
-        </View>
+  /** Error state */
+  if (error) {
+    return (
+      <View
+        style={[
+          styles.safe,
+          { justifyContent: 'center', alignItems: 'center', backgroundColor: scheme === 'dark' ? '#000' : '#FFF7ED' },
+        ]}
+      >
+        <Text style={{ color: '#DC2626', fontSize: 16 }}>{error}</Text>
       </View>
-
-      {/* Section Title */}
-      <Text style={[styles.sectionTitle, { color: c.text }]}>My Reports</Text>
-    </View>
-  );
+    );
+  }
 
   return (
-    <View style={[styles.safe, { backgroundColor: scheme === 'dark' ? '#000000' : '#FFF7ED' }]}> 
+    <View style={[styles.safe, { backgroundColor: scheme === 'dark' ? '#000000' : '#FFF7ED' }]}>
       <FlatList
         data={reports}
         keyExtractor={(item) => item.id}
         ListHeaderComponent={renderHeader}
         contentContainerStyle={styles.feedContent}
+        ListEmptyComponent={
+          <Text style={{ textAlign: 'center', marginTop: 20, color: c.text }}>
+            You haven't submitted any reports yet.
+          </Text>
+        }
         renderItem={({ item }) => {
           const score = item.upvotes - item.downvotes;
           const scoreColor =
@@ -101,9 +209,10 @@ export default function ProfileScreen() {
               : scheme === 'dark'
               ? '#9BA1A6'
               : '#6B7280';
+
           return (
             <View style={styles.feedRow}>
-              {/* Vote Column (static UI) */}
+              {/* Vote Column (UI only for now) */}
               <View
                 style={[
                   styles.voteColumn,
@@ -113,17 +222,9 @@ export default function ProfileScreen() {
                   },
                 ]}
               >
-                <TouchableOpacity activeOpacity={0.6} accessibilityRole="button" accessibilityLabel="Upvote">
-                  <View style={styles.voteBtn}>
-                    <Text style={[styles.voteIcon, { color: c.tint }]}>▲</Text>
-                  </View>
-                </TouchableOpacity>
+                <Text style={[styles.voteIcon, { color: c.tint }]}>▲</Text>
                 <Text style={[styles.voteScore, { color: scoreColor }]}>{score}</Text>
-                <TouchableOpacity activeOpacity={0.6} accessibilityRole="button" accessibilityLabel="Downvote">
-                  <View style={styles.voteBtn}>
-                    <Text style={[styles.voteIcon, { color: scheme === 'dark' ? '#9BA1A6' : '#9CA3AF' }]}>▼</Text>
-                  </View>
-                </TouchableOpacity>
+                <Text style={[styles.voteIcon, { color: scheme === 'dark' ? '#9BA1A6' : '#9CA3AF' }]}>▼</Text>
               </View>
 
               {/* Report Card */}
@@ -137,9 +238,25 @@ export default function ProfileScreen() {
                 ]}
               >
                 <View style={styles.cardMediaWrapper}>
-                  <Image source={item.image} style={styles.cardImage} resizeMode="cover" />
+                  <Image source={{ uri: item.image_url }} style={styles.cardImage} resizeMode="cover" />
                 </View>
-                <Text style={[styles.cardDescription, { color: c.text }]}>{item.description}</Text>
+                <View style={{ padding: 10 }}>
+                  <Text style={[styles.cardDescription, { color: c.text }]}>{item.description}</Text>
+                  <Text
+                    style={{
+                      marginTop: 4,
+                      fontSize: 12,
+                      color:
+                        item.status === 'resolved'
+                          ? '#16A34A'
+                          : item.status === 'in_progress'
+                          ? '#F59E0B'
+                          : '#6B7280',
+                    }}
+                  >
+                    Status: {item.status}
+                  </Text>
+                </View>
               </View>
             </View>
           );
@@ -155,7 +272,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     gap: 16,
-    paddingLeft: 12, // align with feedContent padding
+    paddingLeft: 12,
     paddingRight: 18,
     paddingTop: 10,
     paddingBottom: 12,
@@ -167,7 +284,6 @@ const styles = StyleSheet.create({
   userTagline: { marginTop: 2, fontSize: 16 },
 
   sectionTitle: {
-    // No horizontal padding so it aligns with FlatList's contentContainerStyle padding
     paddingHorizontal: 0,
     paddingTop: 12,
     paddingBottom: 10,
@@ -175,7 +291,6 @@ const styles = StyleSheet.create({
     fontWeight: '700',
   },
 
-  // Reuse feed card style from home
   feedContent: {
     padding: 12,
   },
@@ -192,13 +307,6 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     alignItems: 'center',
     justifyContent: 'space-between',
-  },
-  voteBtn: {
-    width: 40,
-    height: 40,
-    borderRadius: 10,
-    alignItems: 'center',
-    justifyContent: 'center',
   },
   voteIcon: {
     fontSize: 20,
@@ -225,9 +333,31 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   cardDescription: {
-    paddingHorizontal: 10,
-    paddingVertical: 10,
     fontSize: 14,
     lineHeight: 19,
+  },
+  loginBtn: {
+    paddingVertical: 12,
+    paddingHorizontal: 24,
+    borderRadius: 12,
+    elevation: 2,
+  },
+  loginBtnText: {
+    color: '#FFFFFF',
+    fontWeight: '700',
+    fontSize: 16,
+  },
+  signOutBtn: {
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    borderRadius: 10,
+    alignItems: 'center',
+    justifyContent: 'center',
+    elevation: 2,
+  },
+  signOutBtnText: {
+    color: '#fff',
+    fontWeight: '700',
+    fontSize: 15,
   },
 });
