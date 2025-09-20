@@ -357,7 +357,7 @@ const styles = StyleSheet.create({
     gap: 12,
   },
   primaryBtn: {
-    flex: 1,
+    flex: 2,
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 20,

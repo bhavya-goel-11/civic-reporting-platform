@@ -131,7 +131,13 @@ export default function ProfileScreen() {
       <View>
         {/* User Info */}
         <View style={styles.userInfoRow}>
-          <Image source={require('../../assets/images/icon.png')} style={styles.avatar} />
+          <Image 
+            source={scheme === 'dark' 
+              ? require('../../assets/images/profile-user-inverted.png') 
+              : require('../../assets/images/profile-user.png')
+            } 
+            style={styles.avatar} 
+          />
           <View style={styles.userInfoCol}>
             <Text style={[styles.userName, { color: c.text }]} numberOfLines={1}>
               {user.email.split('@')[0] || 'Anonymous User'}
@@ -153,16 +159,20 @@ export default function ProfileScreen() {
             >
               Community Reporter
             </Text>
-            <Pressable
-              style={({ pressed }) => [
-                styles.signOutBtn,
-                { backgroundColor: pressed ? '#DC2626' : '#F59E0B', marginTop: 12 },
-              ]}
-              onPress={handleSignOut}
-            >
-              <Text style={styles.signOutBtnText}>Sign Out</Text>
-            </Pressable>
           </View>
+        </View>
+
+        {/* Sign Out Button - Full Width */}
+        <View style={styles.signOutContainer}>
+          <Pressable
+            style={({ pressed }) => [
+              styles.signOutBtn,
+              { backgroundColor: pressed ? '#92400E' : c.tint },
+            ]}
+            onPress={handleSignOut}
+          >
+            <Text style={styles.signOutBtnText}>Sign Out</Text>
+          </Pressable>
         </View>
 
         {/* Section Title */}
@@ -254,7 +264,7 @@ export default function ProfileScreen() {
                           : '#6B7280',
                     }}
                   >
-                    Status: {item.status}
+                    Status: {item.status.charAt(0).toUpperCase() + item.status.slice(1)}
                   </Text>
                 </View>
               </View>
@@ -270,18 +280,23 @@ const styles = StyleSheet.create({
   safe: { flex: 1 },
   userInfoRow: {
     flexDirection: 'row',
-    alignItems: 'center',
+    alignItems: 'flex-start',
     gap: 16,
     paddingLeft: 12,
     paddingRight: 18,
     paddingTop: 10,
     paddingBottom: 12,
   },
-  avatar: { width: 84, height: 84, borderRadius: 42 },
+  avatar: { width: 72, height: 72, borderRadius: 36 },
   userInfoCol: { flex: 1 },
-  userName: { fontSize: 24, fontWeight: '800' },
-  userEmail: { marginTop: 4, fontSize: 16 },
-  userTagline: { marginTop: 2, fontSize: 16 },
+  userName: { fontSize: 26, fontWeight: '800' },
+  userEmail: { marginTop: 4, fontSize: 17 },
+  userTagline: { marginTop: 2, fontSize: 17 },
+
+  signOutContainer: {
+    paddingHorizontal: 12,
+    paddingBottom: 12,
+  },
 
   sectionTitle: {
     paddingHorizontal: 0,
@@ -348,9 +363,10 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
   signOutBtn: {
-    paddingVertical: 10,
+    width: '100%',
+    paddingVertical: 12,
     paddingHorizontal: 20,
-    borderRadius: 10,
+    borderRadius: 12,
     alignItems: 'center',
     justifyContent: 'center',
     elevation: 2,
