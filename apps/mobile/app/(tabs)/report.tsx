@@ -3,6 +3,7 @@ import * as Location from 'expo-location';
 import { 
   Alert, 
   Image as RNImage, 
+  Keyboard,
   Platform, 
   Pressable, 
   ScrollView, 
@@ -182,21 +183,7 @@ export default function ReportScreen() {
           contentContainerStyle={{ padding: 20 }}
           keyboardShouldPersistTaps="handled"
         >
-          {/* Location Display Only */}
-          <View style={{ marginBottom: 16 }}>
-            <Text style={{ fontWeight: 'bold', marginBottom: 4 }}>Location</Text>
-            {locLoading ? (
-              <ActivityIndicator size="small" color={c.text} />
-            ) : location ? (
-              <Text style={{ fontSize: 12, color: colorScheme === 'dark' ? '#9CA3AF' : '#4B5563' }}>
-                Lat: {location.latitude.toFixed(5)}, Lng: {location.longitude.toFixed(5)}
-              </Text>
-            ) : (
-              <Text style={{ fontSize: 12, color: '#DC2626' }}>Location not available</Text>
-            )}
-          </View>
-
-          <View style={styles.headerBlock}>
+          <View style={[styles.headerBlock, { marginBottom: 24 }]}>
             <ThemedText type="title">📝 Report an Issue</ThemedText>
             <ThemedText style={styles.headerSub}>
               Help us fix problems in your area. Upload a photo and add a short description.
@@ -204,7 +191,7 @@ export default function ReportScreen() {
           </View>
 
           {/* Photo upload */}
-          <View style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)' }]}> 
+          <View style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)', marginBottom: 20 }]}> 
             <Text style={[styles.label, { color: colorScheme === 'dark' ? '#E5E7EB' : '#1F2937' }]}> 
               Upload a photo<Text style={{ color: '#DC2626' }}>*</Text>
             </Text>
@@ -228,7 +215,7 @@ export default function ReportScreen() {
 
           {/* Description */}
           <View
-            style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)' }]}
+            style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)', marginBottom: 20 }]}
             onLayout={(e) => setDescY(e.nativeEvent.layout.y)}
           > 
             <Text style={[styles.label, { color: colorScheme === 'dark' ? '#E5E7EB' : '#1F2937' }]}> 
@@ -247,24 +234,40 @@ export default function ReportScreen() {
                 backgroundColor: colorScheme === 'dark' ? 'rgba(23,23,23,0.8)' : '#FFFFFF',
               }]}
               onFocus={() => {
-                const y = Math.max(0, descY - 160);
-                scrollRef.current?.scrollTo({ y, animated: true });
+                // Scroll to make submit button visible when description is focused
+                setTimeout(() => {
+                  scrollRef.current?.scrollToEnd({ animated: true });
+                }, 100);
               }}
             />
           </View>
 
+          {/* Location Display Only */}
+          <View style={[styles.card, { borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B', backgroundColor: colorScheme === 'dark' ? 'rgba(28,28,28,0.6)' : 'rgba(255,255,255,0.7)', marginBottom: 20 }]}>
+            <Text style={[styles.label, { color: colorScheme === 'dark' ? '#E5E7EB' : '#1F2937' }]}>Location</Text>
+            {locLoading ? (
+              <ActivityIndicator size="small" color={c.text} />
+            ) : location ? (
+              <Text style={{ fontSize: 12, color: colorScheme === 'dark' ? '#9CA3AF' : '#4B5563' }}>
+                Lat: {location.latitude.toFixed(5)}, Lng: {location.longitude.toFixed(5)}
+              </Text>
+            ) : (
+              <Text style={{ fontSize: 12, color: '#DC2626' }}>Location not available</Text>
+            )}
+          </View>
+
           {/* Helper */}
-          <Text style={{ color: colorScheme === 'dark' ? '#9CA3AF' : '#4B5563', fontSize: 12 }}>
-            Your location is detected automatically.
+          <Text style={{ color: colorScheme === 'dark' ? '#9CA3AF' : '#4B5563', fontSize: 12, marginBottom: 16 }}>
+            Your Real-Time location is being used. Please submit reports from the location of the Issue.
           </Text>
 
           {/* Error */}
           {!!error && (
-            <Text accessibilityLiveRegion="polite" style={{ color: '#DC2626', marginTop: 8 }}>{error}</Text>
+            <Text accessibilityLiveRegion="polite" style={{ color: '#DC2626', marginTop: 8, marginBottom: 16 }}>{error}</Text>
           )}
 
           {/* Actions */}
-          <View style={styles.actionsRow}>
+          <View style={[styles.actionsRow, { marginTop: 8 }]}>
             <Pressable
               onPress={onSubmit}
               disabled={isSubmitting}
@@ -286,11 +289,20 @@ export default function ReportScreen() {
               )}
             </Pressable>
             <Pressable
-              onPress={resetForm}
-              style={({ pressed }) => [styles.linkBtn, { opacity: pressed ? 0.7 : 1 }]}
+              onPress={() => {
+                Keyboard.dismiss();
+                resetForm();
+              }}
+              style={({ pressed }) => [
+                styles.secondaryBtn,
+                { 
+                  borderColor: colorScheme === 'dark' ? '#3F3F46' : '#F59E0B',
+                  opacity: pressed ? 0.7 : 1 
+                }
+              ]}
               accessibilityRole="button"
             >
-              <Text style={[styles.linkText, { color: colorScheme === 'dark' ? '#E5E7EB' : '#111827' }]}>Cancel</Text>
+              <Text style={[styles.secondaryBtnText, { color: colorScheme === 'dark' ? '#E5E7EB' : '#111827' }]}>Cancel</Text>
             </Pressable>
           </View>
         </ScrollView>
@@ -342,10 +354,10 @@ const styles = StyleSheet.create({
   actionsRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    gap: 16,
+    gap: 12,
   },
   primaryBtn: {
-    flexGrow: 1,
+    flex: 1,
     borderRadius: 12,
     paddingVertical: 14,
     paddingHorizontal: 20,
@@ -358,12 +370,18 @@ const styles = StyleSheet.create({
     fontWeight: '700',
     fontSize: 16,
   },
-  linkBtn: {
-    paddingHorizontal: 8,
-    paddingVertical: 8,
+  secondaryBtn: {
+    flex: 1,
+    borderRadius: 12,
+    paddingVertical: 14,
+    paddingHorizontal: 20,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderWidth: 1,
+    backgroundColor: 'transparent',
   },
-  linkText: {
-    fontSize: 14,
-    fontWeight: '600',
+  secondaryBtnText: {
+    fontSize: 16,
+    fontWeight: '700',
   },
 });
