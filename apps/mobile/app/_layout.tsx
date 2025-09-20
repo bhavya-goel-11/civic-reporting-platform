@@ -26,6 +26,14 @@ export default function RootLayout() {
               name="modal"
               options={{ presentation: 'modal', title: 'Modal' }}
             />
+            <Stack.Screen
+              name="auth/SignIn"
+              options={{ headerShown: false }}
+            />
+            <Stack.Screen
+              name="auth/SignUp"
+              options={{ headerShown: false }}
+            />
           </Stack>
 
           {/* Status bar adapts to theme */}

@@ -85,8 +85,11 @@ export default function ProfileScreen() {
           { justifyContent: 'center', alignItems: 'center', backgroundColor: scheme === 'dark' ? '#000' : '#FFF7ED' },
         ]}
       >
-        <Text style={{ color: c.text, fontSize: 18, marginBottom: 16, textAlign: 'center' }}>
-          You must be logged in to view your profile and reports.
+        <Text style={{ color: c.text, fontSize: 24, fontWeight: '800', marginBottom: 10 }}>
+          Login Required
+        </Text>
+        <Text style={{ color: c.text, fontSize: 16, marginBottom: 16, textAlign: 'center', opacity: 0.8 }}>
+          You must be logged in to view your profile{'\n'}and reports.
         </Text>
         <Pressable
           style={({ pressed }) => [
