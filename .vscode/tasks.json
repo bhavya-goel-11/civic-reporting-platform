@@ -1,0 +1,21 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"label": "Lint apps/web (sidebar hide)",
+			"type": "shell",
+			"command": "npm",
+			"args": [
+				"run",
+				"--workspace",
+				"apps/web",
+				"lint"
+			],
+			"isBackground": false,
+			"problemMatcher": [
+				"$eslint-stylish"
+			],
+			"group": "build"
+		}
+	]
+}
