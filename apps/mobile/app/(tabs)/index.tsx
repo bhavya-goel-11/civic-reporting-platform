@@ -144,6 +144,11 @@ export default function HomeScreen() {
           data={issues}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.feedContent}
+          ListHeaderComponent={() => (
+            <View style={styles.sectionHeader}>
+              <Text style={[styles.sectionTitle, { color: c.text }]}>Community Reports</Text>
+            </View>
+          )}
           renderItem={({ item }) => (
             <View style={[styles.card, { backgroundColor: scheme === 'dark' ? '#111111' : '#FFFFFF', borderColor: scheme === 'dark' ? '#2A2A2A' : '#D1D5DB' }]}> 
               <View style={styles.statusBar}>
@@ -283,9 +288,12 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     paddingHorizontal: 14,
-    paddingVertical: 10,
+    paddingTop: 16,
+    paddingBottom: 10,
     gap: 10,
     justifyContent: 'space-between',
+    borderBottomWidth: 1,
+    borderBottomColor: 'rgba(255, 255, 255, 0.3)',
   },
   topBarLeft: {
     flexDirection: 'row',
@@ -299,7 +307,16 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-end',
   },
   topBarIcon: { width: 38, height: 38, borderRadius: 8 },
-  topBarTitle: { fontSize: 24, fontWeight: '800' },
+  topBarTitle: { fontSize: 28, fontWeight: '800' },
+  sectionHeader: {
+    paddingHorizontal: 16,
+    paddingTop: 16,
+    paddingBottom: 12,
+  },
+  sectionTitle: {
+    fontSize: 22,
+    fontWeight: '700',
+  },
   searchButton: {
     paddingHorizontal: 8,
     paddingVertical: 6,
