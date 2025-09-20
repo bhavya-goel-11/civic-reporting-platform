@@ -1,6 +1,8 @@
 // removed 'use client' to ensure correct client/server boundaries
-'use client'
+"use client";
+import Link from 'next/link';
 import { useEffect, useState } from 'react';
+import MapSnippet from '@/components/map-snippet';
 import AdminLayout from '@/components/admin-layout';
 import RequireAdmin from '@/components/require-admin';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -134,6 +136,20 @@ export default function DashboardPage() {
               ))}
             </div>
           </div>
+        <div className="mt-8">
+          <h2 className="text-xl font-semibold mb-2">Map Overview</h2>
+          <div className="border rounded-lg p-4 bg-gray-50 flex flex-col items-center">
+            <div className="w-full h-48">
+              <Link href="/map" className="block w-full h-full">
+                <div className="w-full h-full">
+                  {/* Small map preview */}
+                  <MapSnippet />
+                </div>
+              </Link>
+            </div>
+            <Link href="/map" className="mt-4 px-4 py-2 bg-amber-700 text-white rounded hover:bg-amber-800">View Full Map</Link>
+          </div>
+        </div>
         </AdminLayout>
       </RequireAdmin>
     );
@@ -232,24 +248,17 @@ export default function DashboardPage() {
 
           {/* Map and Recent Reports */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Map Placeholder */}
+            {/* Map Snippet */}
             <Card>
               <CardHeader>
                 <CardTitle>Reports Map</CardTitle>
               </CardHeader>
               <CardContent>
-                <div className="h-64 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                  <div className="text-center">
-                    <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-                    </svg>
-                    <h3 className="mt-2 text-sm font-medium text-gray-900">Map Placeholder</h3>
-                    <p className="mt-1 text-sm text-gray-500">
-                      Interactive map showing report locations will be integrated here
-                    </p>
+                <Link href="/map" className="block h-64 w-full rounded-lg overflow-hidden border border-gray-300 hover:shadow-lg transition-shadow">
+                  <div className="h-64 w-full">
+                    <MapSnippet />
                   </div>
-                </div>
+                </Link>
               </CardContent>
             </Card>
 

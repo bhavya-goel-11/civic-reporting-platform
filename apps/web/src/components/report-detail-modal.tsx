@@ -74,24 +74,10 @@ export default function ReportDetailModal({
 
   const handleUpdateStatus = async () => {
     if (selectedStatus === report.status) return;
-    
     setIsUpdating(true);
     try {
       await onUpdateStatus?.(report.id, selectedStatus);
-      
-      // Send notification to citizen
-      try {
-        await notificationApi.notifyStatusChange(
-          report.id,
-          'citizen-user-id', // This would come from the report data
-          selectedStatus
-        );
-        showToast.success(`Status updated and citizen notified`);
-      } catch (notificationError) {
-        console.error('Failed to send notification:', notificationError);
-        showToast.success(`Status updated successfully`);
-        showToast.error(`Failed to notify citizen`);
-      }
+      showToast.success(`Status updated successfully`);
     } catch (error) {
       console.error('Failed to update status:', error);
       showToast.error('Failed to update status');

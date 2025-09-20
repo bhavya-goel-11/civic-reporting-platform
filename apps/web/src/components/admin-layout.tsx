@@ -10,6 +10,7 @@ const navigation = [
   { name: 'Dashboard', href: '/dashboard', icon: DashboardIcon },
   { name: 'Reports', href: '/reports', icon: ReportsIcon },
   { name: 'Analytics', href: '/analytics', icon: AnalyticsIcon },
+  { name: 'Map', href: '/map', icon: AnalyticsIcon },
   { name: 'DB Test', href: '/test-db', icon: TestIcon },
 ];
 
