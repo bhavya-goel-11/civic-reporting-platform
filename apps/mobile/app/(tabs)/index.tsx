@@ -6,7 +6,8 @@ import { IconSymbol } from '@/components/ui/icon-symbol';
 import { supabase } from '@/lib/supabase';
 import type { Database } from '@/types/supabase';
 
-type Issue = Omit<Database['public']['Tables']['reports']['Row'], 'image_url'> & {
+type ReportRow = Database['public']['Tables']['reports']['Row'];
+type Issue = Omit<ReportRow, 'image_url'> & {
   image_url: string | null;
 };
 
@@ -45,7 +46,7 @@ export default function HomeScreen() {
   const fetchReports = async () => {
     try {
       setLoading(true);
-      const { data, error } = await supabase
+      const { data, error } = await (supabase as any)
         .from('reports')
         .select('*')
         .order('created_at', { ascending: false });
@@ -56,7 +57,7 @@ export default function HomeScreen() {
 
       if (data) {
         // For each report, get a public image URL if image_url exists
-        const processedReports = data.map((report) => {
+        const processedReports: Issue[] = data.map((report: ReportRow) => {
           if (!report.image_url) {
             console.log('No image_url for report', report.id);
             return report;
@@ -148,8 +149,8 @@ export default function HomeScreen() {
               <View style={styles.statusBar}>
                 <Text style={[styles.statusText, { 
                   color: item.status === 'resolved' ? '#22C55E' : 
-                         item.status === 'in_progress' ? '#F59E0B' : 
-                         '#DC2626'
+                        item.status === 'in_progress' ? '#F59E0B' : 
+                        '#DC2626'
                 }]}>
                   {item.status.replace('_', ' ').toUpperCase()}
                 </Text>
@@ -212,9 +213,10 @@ export default function HomeScreen() {
                       return issue;
                     }));
                     // Use the new value for the update
-                    const { data, error } = await supabase
+                    const updateData = { upvotes: newUpvotes };
+                    const { data, error } = await (supabase as any)
                       .from('reports')
-                      .update({ upvotes: newUpvotes })
+                      .update(updateData)
                       .eq('id', item.id)
                       .select();
                     if (error) {
@@ -238,9 +240,10 @@ export default function HomeScreen() {
                       }
                       return issue;
                     }));
-                    const { data, error } = await supabase
+                    const updateData = { downvotes: newDownvotes };
+                    const { data, error } = await (supabase as any)
                       .from('reports')
-                      .update({ downvotes: newDownvotes })
+                      .update(updateData)
                       .eq('id', item.id)
                       .select();
                     if (error) {

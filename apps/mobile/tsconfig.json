@@ -1,10 +1,21 @@
 {
-  "extends": "expo/tsconfig.base",
   "compilerOptions": {
-  "skipLibCheck": true,
+    "target": "es2017",
+    "lib": [
+      "es2017",
+      "es2018",
+      "es5"
+    ],
+    "module": "commonjs",
+    "skipLibCheck": true,
     "strict": true,
     "jsx": "react-native",
     "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "noEmit": true,
+    "ignoreDeprecations": "5.0",
     "baseUrl": "./",
     "typeRoots": [
       "./types",
@@ -21,5 +32,6 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-  ]
+  ],
+  "extends": "expo/tsconfig.base"
 }
