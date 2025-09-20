@@ -131,7 +131,10 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
   );
 }
 
+import { useAdminAuth } from '@/components/admin-auth-provider';
+
 function SidebarContent({ pathname }: { pathname: string }) {
+  const { logout, user } = useAdminAuth();
   return (
     <div className="flex flex-col h-0 flex-1 border-r border-gray-200 bg-white">
       <div className="flex-1 flex flex-col pt-5 pb-4 overflow-y-auto">
@@ -163,6 +166,14 @@ function SidebarContent({ pathname }: { pathname: string }) {
             );
           })}
         </nav>
+        <div className="px-4 mt-6">
+          <Button variant="outline" className="w-full" onClick={logout}>
+            Logout
+          </Button>
+        </div>
+        {user?.email && (
+          <div className="px-4 mt-2 text-xs text-gray-500">Signed in as {user.email}</div>
+        )}
       </div>
     </div>
   );

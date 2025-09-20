@@ -4,6 +4,7 @@ import { useColorScheme } from '@/hooks/use-color-scheme';
 import { Colors } from '@/constants/theme';
 import { IconSymbol } from '@/components/ui/icon-symbol';
 import { supabase } from '@/lib/supabase';
+import LoginRequired from '@/components/LoginRequired';
 import type { Database } from '@/types/supabase';
 
 type ReportRow = Database['public']['Tables']['reports']['Row'];
@@ -12,15 +13,29 @@ type Issue = Omit<ReportRow, 'image_url'> & {
 };
 
 export default function HomeScreen() {
+  // ...existing code...
   const scheme = useColorScheme() ?? 'light';
   const c = Colors[scheme];
   const [searchOpen, setSearchOpen] = useState(false);
   const [searchText, setSearchText] = useState('');
   const [issues, setIssues] = useState<Issue[]>([]);
   const [loading, setLoading] = useState(true);
+  const [session, setSession] = useState<any>(null);
+  const [authLoading, setAuthLoading] = useState(true);
 
   useEffect(() => {
     fetchReports();
+    const fetchSession = async () => {
+      setAuthLoading(true);
+      const { data } = await supabase.auth.getSession();
+      setSession(data.session);
+      setAuthLoading(false);
+    };
+    fetchSession();
+    const { subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+    }).data;
+    return () => subscription.unsubscribe();
   }, []);
 
   // For public buckets, use getPublicUrl
@@ -81,8 +96,96 @@ export default function HomeScreen() {
     }
   };
 
+  // Track votes per user per report in local state
+  const [userVotes, setUserVotes] = useState<{ [reportId: string]: 'up' | 'down' }>(() => ({}));
+
+  // Voting logic
+  const handleVote = async (reportId: string, type: 'up' | 'down') => {
+    if (authLoading) return;
+    if (!session || !session.user) {
+      setShowLoginRequired(true);
+      // Optionally scroll to top or focus the modal for accessibility
+      return;
+    }
+    // Prevent voting on own report
+    const report = issues.find(issue => issue.id === reportId);
+    if (report && report.user_id === session.user.id) return;
+
+    // Determine previous vote
+    const prevVote = userVotes[reportId];
+    let newUpvotes = report?.upvotes ?? 0;
+    let newDownvotes = report?.downvotes ?? 0;
+
+    // Remove previous vote if switching
+    if (prevVote === 'up' && type === 'down') {
+      newUpvotes = Math.max(0, newUpvotes - 1);
+      newDownvotes += 1;
+    } else if (prevVote === 'down' && type === 'up') {
+      newDownvotes = Math.max(0, newDownvotes - 1);
+      newUpvotes += 1;
+    } else if (!prevVote) {
+      if (type === 'up') newUpvotes += 1;
+      if (type === 'down') newDownvotes += 1;
+    } else {
+      // Already voted this way, do nothing
+      return;
+    }
+
+    setIssues(prev => prev.map(issue => {
+      if (issue.id === reportId) {
+        return { ...issue, upvotes: newUpvotes, downvotes: newDownvotes };
+      }
+      return issue;
+    }));
+    setUserVotes(prev => ({ ...prev, [reportId]: type }));
+
+    const updateData: Partial<Issue> = { upvotes: newUpvotes, downvotes: newDownvotes };
+    const { data, error } = await (supabase as any)
+      .from('reports')
+      .update(updateData)
+      .eq('id', reportId)
+      .select();
+    if (error) {
+      console.error('Failed to update vote:', error);
+    } else {
+      console.log('Vote update response:', data);
+    }
+  };
+
+  // Show LoginRequired modal/page for voting
+  const [showLoginRequired, setShowLoginRequired] = useState(false);
+
+  // Filter issues based on searchText
+  const filteredIssues = issues.filter(issue => {
+    const search = searchText.trim().toLowerCase();
+    if (!search) return true;
+    const description = (issue.description || '').toLowerCase();
+    const id = (issue.id || '').toLowerCase();
+    const location = issue.location ? `${issue.location.lat},${issue.location.lng}` : '';
+    return (
+      description.includes(search) ||
+      id.includes(search) ||
+      location.includes(search)
+    );
+  });
+
   return (
     <View style={[styles.safeArea, { backgroundColor: scheme === 'dark' ? '#000000' : '#FFF7ED' }]}> 
+      {showLoginRequired && (
+        <View style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 999,
+          backgroundColor: scheme === 'dark' ? '#000' : '#111827',
+          justifyContent: 'center',
+          alignItems: 'center',
+        }}>
+          <LoginRequired />
+        </View>
+      )}
       {/* Header */}
       {/* Top Header */}
       <View style={styles.topBar}>
@@ -141,7 +244,7 @@ export default function HomeScreen() {
         </View>
       ) : (
         <FlatList
-          data={issues}
+          data={filteredIssues}
           keyExtractor={(item) => item.id}
           contentContainerStyle={styles.feedContent}
           ListHeaderComponent={() => (
@@ -156,10 +259,10 @@ export default function HomeScreen() {
                   color: item.status === 'resolved' ? '#22C55E' : 
                         item.status === 'in_progress' ? '#F59E0B' : 
                         '#DC2626'
-                }]}>
+                }]}> 
                   {item.status.replace('_', ' ').toUpperCase()}
                 </Text>
-                <Text style={[styles.dateText, { color: c.text }]}>
+                <Text style={[styles.dateText, { color: c.text }]}> 
                   {new Date(item.created_at).toLocaleDateString()}
                 </Text>
               </View>
@@ -193,14 +296,14 @@ export default function HomeScreen() {
                     defaultSource={require('../../assets/images/icon.png')}
                   />
                 ) : (
-                  <View style={[styles.cardImage, { backgroundColor: '#f3f4f6', justifyContent: 'center', alignItems: 'center' }]}>
+                  <View style={[styles.cardImage, { backgroundColor: '#f3f4f6', justifyContent: 'center', alignItems: 'center' }]}> 
                     <Text style={{ color: '#6b7280' }}>No image available</Text>
                   </View>
                 )}
               </View>
               <Text style={[styles.cardDescription, { color: c.text }]}>{item.description}</Text>
               {item.location && (
-                <Text style={[styles.locationText, { color: c.text }]}>
+                <Text style={[styles.locationText, { color: c.text }]}> 
                   📍 {item.location.lat.toFixed(6)}, {item.location.lng.toFixed(6)}
                 </Text>
               )}
@@ -208,57 +311,18 @@ export default function HomeScreen() {
               <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center', gap: 18, marginVertical: 8 }}>
                 <TouchableOpacity
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 4, padding: 6 }}
-                  onPress={async () => {
-                    let newUpvotes = 0;
-                    setIssues(prev => prev.map(issue => {
-                      if (issue.id === item.id) {
-                        newUpvotes = (issue.upvotes ?? 0) + 1;
-                        return { ...issue, upvotes: newUpvotes };
-                      }
-                      return issue;
-                    }));
-                    // Use the new value for the update
-                    const updateData = { upvotes: newUpvotes };
-                    const { data, error } = await (supabase as any)
-                      .from('reports')
-                      .update(updateData)
-                      .eq('id', item.id)
-                      .select();
-                    if (error) {
-                      console.error('Failed to upvote:', error);
-                    } else {
-                      console.log('Upvote update response:', data);
-                    }
-                  }}
+                  onPress={() => handleVote(item.id, 'up')}
+                  disabled={userVotes[item.id] === 'up'}
                 >
-                  <Text style={{ fontSize: 20, color: '#22C55E', fontWeight: 'bold' }}>▲</Text>
+                  <Text style={{ fontSize: 20, color: userVotes[item.id] === 'up' ? '#22C55E' : '#A1A1AA', fontWeight: 'bold' }}>▲</Text>
                   <Text style={{ fontSize: 16, color: c.text }}>{item.upvotes ?? 0}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   style={{ flexDirection: 'row', alignItems: 'center', gap: 4, padding: 6 }}
-                  onPress={async () => {
-                    let newDownvotes = 0;
-                    setIssues(prev => prev.map(issue => {
-                      if (issue.id === item.id) {
-                        newDownvotes = (issue.downvotes ?? 0) + 1;
-                        return { ...issue, downvotes: newDownvotes };
-                      }
-                      return issue;
-                    }));
-                    const updateData = { downvotes: newDownvotes };
-                    const { data, error } = await (supabase as any)
-                      .from('reports')
-                      .update(updateData)
-                      .eq('id', item.id)
-                      .select();
-                    if (error) {
-                      console.error('Failed to downvote:', error);
-                    } else {
-                      console.log('Downvote update response:', data);
-                    }
-                  }}
+                  onPress={() => handleVote(item.id, 'down')}
+                  disabled={userVotes[item.id] === 'down'}
                 >
-                  <Text style={{ fontSize: 20, color: '#DC2626', fontWeight: 'bold' }}>▼</Text>
+                  <Text style={{ fontSize: 20, color: userVotes[item.id] === 'down' ? '#DC2626' : '#A1A1AA', fontWeight: 'bold' }}>▼</Text>
                   <Text style={{ fontSize: 16, color: c.text }}>{item.downvotes ?? 0}</Text>
                 </TouchableOpacity>
               </View>
@@ -269,7 +333,6 @@ export default function HomeScreen() {
     </View>
   );
 }
-
 const CARD_RADIUS = 14;
 const IMAGE_HEIGHT = Math.round(Dimensions.get('window').width * 0.42);
 

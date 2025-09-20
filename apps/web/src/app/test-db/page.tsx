@@ -1,5 +1,5 @@
-'use client';
-
+// removed 'use client' to ensure correct client/server boundaries
+'use client'
 import { useState } from 'react';
 import { supabase } from '@/lib/supabase';
 
