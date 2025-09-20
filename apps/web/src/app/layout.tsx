@@ -4,7 +4,7 @@ import "./globals.css";
 import ClientRoot from './client-root';
 
 export const metadata: Metadata = {
-  title: "Civic Reporting Admin Portal",
+  title: "CivicSewa",
   description: "Admin portal for managing civic reports and infrastructure issues",
 };
 

@@ -114,7 +114,7 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
           </Button>
           <div className="flex-1 px-4 flex justify-between items-center">
             <div className="flex-1">
-              <h1 className="text-2xl font-semibold text-gray-900">Civic Reporting Admin Portal</h1>
+              <h1 className="text-2xl font-bold text-gray-900">CivicSewa</h1>
             </div>
           </div>
         </div>

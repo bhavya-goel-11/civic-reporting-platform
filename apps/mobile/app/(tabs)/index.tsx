@@ -190,9 +190,9 @@ export default function HomeScreen() {
       {/* Top Header */}
       <View style={styles.topBar}>
         <View style={styles.topBarLeft}>
-          <Image source={require('../../assets/images/icon.png')} style={styles.topBarIcon} />
+          {/* <Image source={require('../../assets/images/icon.png')} style={styles.topBarIcon} /> */}
           {!searchOpen && (
-            <Text style={[styles.topBarTitle, { color: c.text }]}>CivicConnect</Text>
+            <Text style={[styles.topBarTitle, { color: "#ecc038" }]}>CivicSewa</Text>
           )}
         </View>
         <View style={styles.topBarRight}>
