@@ -7,6 +7,7 @@ import { SessionContextProvider } from '@supabase/auth-helpers-react';
 import { supabase } from '@/lib/supabase';
 
 import { useColorScheme } from '@/hooks/use-color-scheme';
+import { Colors } from '@/constants/theme';
 
 export const unstable_settings = {
   anchor: '(tabs)',
@@ -18,7 +19,13 @@ export default function RootLayout() {
   return (
     <SessionContextProvider supabaseClient={supabase}>
       <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-        <SafeAreaView style={{ flex: 1 }} edges={['top', 'left', 'right']}>
+        <SafeAreaView 
+          style={{ 
+            flex: 1, 
+            backgroundColor: colorScheme === 'dark' ? Colors.dark.background : Colors.light.background 
+          }} 
+          edges={['top', 'left', 'right']}
+        >
           {/* Navigation stack */}
           <Stack>
             <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
@@ -36,8 +43,11 @@ export default function RootLayout() {
             />
           </Stack>
 
-          {/* Status bar adapts to theme */}
-          <StatusBar style={colorScheme === 'dark' ? 'light' : 'dark'} />
+          {/* Status bar adapts to theme with proper background */}
+          <StatusBar 
+            style={colorScheme === 'dark' ? 'light' : 'dark'} 
+            backgroundColor={colorScheme === 'dark' ? Colors.dark.background : Colors.light.background}
+          />
         </SafeAreaView>
       </ThemeProvider>
     </SessionContextProvider>
