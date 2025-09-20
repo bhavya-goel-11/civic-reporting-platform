@@ -147,8 +147,11 @@ export default function ReportScreen() {
         location: location ? { lat: location.latitude, lng: location.longitude } : null,
         user_id: session.user.id,
       };
-      const { error: insertError } = await insertReport(insertData);
-      if (insertError) throw insertError;
+      // Debug: log the data being inserted
+      console.log('Insert report data:', insertData);
+      const result = await insertReport(insertData);
+      console.log('Supabase insert result:', result);
+      if (result.error) throw result.error;
       Alert.alert('Report submitted', 'Thank you for helping improve your city.');
       resetForm();
     } catch (err: any) {
