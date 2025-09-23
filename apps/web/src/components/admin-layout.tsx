@@ -103,16 +103,16 @@ export default function AdminLayout({ children }: AdminLayoutProps) {
       {/* Main content */}
       <div className="flex flex-col w-0 flex-1 overflow-hidden">
         {/* Top bar */}
-        <div className="relative z-10 flex-shrink-0 flex h-16 bg-white shadow border-b border-gray-200">
+        <div className="relative z-10 flex-shrink-0 flex h-16 items-center bg-white shadow border-b border-gray-200">
           <Button
             variant="ghost"
             size="icon"
             onClick={() => setSidebarOpen(true)}
-            className="md:hidden"
+            className="md:hidden ml-2"
           >
             <MenuIcon className="h-6 w-6" />
           </Button>
-          <div className="flex-1 px-4 flex justify-between items-center">
+          <div className="flex-1 pl-2 pr-4 flex justify-between items-center">
             <div className="flex-1">
               <h1 className="text-2xl font-bold text-gray-900">CivicSewa</h1>
             </div>
