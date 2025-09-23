@@ -10,7 +10,10 @@ export default function LoginRequired() {
   const c = Colors[colorScheme];
 
   return (
-    <View style={[styles.container, { backgroundColor: c.background }]}>
+    <View style={[
+      styles.container,
+      { backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' },
+    ]}>
       <Text style={[styles.title, { color: c.text }]}>Login Required</Text>
       <Text style={[styles.subtitle, { color: c.text, opacity: 0.8 }]}>
         You must be logged in to access this feature.
@@ -19,7 +22,7 @@ export default function LoginRequired() {
         style={({ pressed }) => [
           styles.button,
           {
-            backgroundColor: pressed ? (colorScheme === 'dark' ? '#92400E' : '#D97706') : c.tint,
+            backgroundColor: pressed ? (colorScheme === 'dark' ? '#000000' : '#FFF7ED') : c.tint,
           },
         ]}
         onPress={() => router.push('/auth/SignIn')}

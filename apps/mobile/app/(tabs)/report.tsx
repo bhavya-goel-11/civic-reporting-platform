@@ -165,7 +165,10 @@ export default function ReportScreen() {
 
   if (authLoading) {
     return (
-      <View style={[styles.safeArea, { justifyContent: 'center', alignItems: 'center' }]}> 
+      <View style={[
+        styles.safeArea,
+        { justifyContent: 'center', alignItems: 'center', backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' },
+      ]}> 
         <ActivityIndicator size="large" color={c.tint} />
       </View>
     );
@@ -182,7 +185,7 @@ export default function ReportScreen() {
       >
         <ScrollView
           ref={scrollRef}
-          style={{ flex: 1, backgroundColor: c.background }}
+          style={{ flex: 1, backgroundColor: colorScheme === 'dark' ? '#000000' : '#FFF7ED' }}
           contentContainerStyle={{ padding: 20 }}
           keyboardShouldPersistTaps="handled"
         >
