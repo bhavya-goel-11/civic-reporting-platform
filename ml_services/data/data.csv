@@ -1,0 +1,121 @@
+text,category,urgency
+"Massive pile of garbage at the corner of MG Road is a health hazard. It hasn't been cleared for weeks.",garbage,high
+"The main streetlight on 12th Main Indiranagar is out. It's a serious safety issue at night.",streetlight,high
+"Huge pothole on the Outer Ring Road near Marathahalli is causing major traffic jams and accidents.",pothole,high
+"Sewage is overflowing from the manhole in front of my house in Koramangala. The smell is unbearable.",drainage,high
+"Garbage bin near the city park is completely full and overflowing. Needs immediate attention.",garbage,high
+"A large tree branch has fallen and is blocking the road in Jayanagar 4th Block.",other,high
+"All streetlights in our lane in Sector 22, Dwarka have been off for three nights.",streetlight,high
+"The drain on our street is completely blocked, leading to severe waterlogging after just a little rain.",drainage,medium
+"Several potholes on the road leading to the community centre make driving difficult.",pothole,medium
+"The garbage collection van has not come to our area in Lajpat Nagar for the past 4 days.",garbage,medium
+"A couple of streetlights are flickering on and off near the bus stop. It's been like this for a week.",streetlight,medium
+"The drain cover is broken and poses a risk to pedestrians and vehicles.",drainage,medium
+"The road surface is wearing off in multiple places on the main market road.",pothole,medium
+"There's a small pothole forming near the speed breaker on our street.",pothole,low
+"Request to install a new streetlight in the alley behind our building.",streetlight,low
+"The garbage bin has a crack in it and needs to be replaced.",garbage,low
+"The drain is partially clogged and water is draining slowly.",drainage,low
+"Can we please get an extra garbage bin for our locality? The current one fills up too fast.",garbage,low
+"Minor crack on the public pavement needs fixing.",other,low
+"The streetlight outside my house is working, but the light is very dim.",streetlight,low
+"Water logging in front of Apollo Hospital, Sarita Vihar. Very difficult for patients to cross.",drainage,high
+"Why is there so much garbage dumped near the Yamuna river bank? Authorities need to clean this up ASAP.",garbage,high
+"Dangerous pothole on the flyover towards Noida. My bike almost skidded yesterday.",pothole,high
+"Streetlight pole has been knocked down after an accident and is lying on the road.",streetlight,high
+"Manhole cover is missing in the middle of the road in Connaught Place. Very dangerous!",other,high
+"Drainage system in Chandni Chowk is a mess. Water is entering the shops.",drainage,high
+"Heaps of construction debris have been left on the side of the road for a month.",garbage,medium
+"The road near the metro station is full of small to medium-sized potholes.",pothole,medium
+"The main drain in our colony gets clogged every time it rains.",drainage,medium
+"Streetlights in the park are not working, making it unsafe for evening walks.",streetlight,medium
+"Irregular garbage collection is a persistent problem in our neighborhood.",garbage,medium
+"The storm drain inlet is covered with leaves and plastic. Needs to be cleared before the next rain.",drainage,low
+"A small portion of the footpath is broken. It could trip someone.",other,low
+"The streetlight timer is off; lights are on during the day.",streetlight,low
+"Can we have the potholes filled before the monsoon season starts?",pothole,low
+"Request for regular sweeping of our street.",garbage,low
+"Overflowing dumpsters behind the main market are attracting stray dogs.",garbage,high
+"Complete darkness on the service road next to the highway. It's an invitation for crime.",streetlight,high
+"The road has caved in at a small spot near the intersection.",pothole,high
+"Blocked sewer line is causing dirty water to back up into toilets. Urgent help needed.",drainage,high
+"A dead animal is lying on the road and needs to be removed immediately.",garbage,high
+"Fallen signpost is obstructing the footpath.",other,high
+"Water pipe leakage has created a large pool of water on the road.",drainage,medium
+"The condition of the road in our residential area has become very poor due to many potholes.",pothole,medium
+"Garbage is not being segregated properly by the collection agency.",garbage,medium
+"The streetlight flickers constantly, which is very annoying.",streetlight,medium
+"The gutter is full of silt and needs cleaning.",drainage,medium
+"There is a small pothole on the side of the road that could be fixed.",pothole,low
+"The public dustbin needs repair; the lid is broken.",garbage,low
+"A single streetlight in our lane is fused.",streetlight,low
+"The drain grate is loose and makes a noise every time a car passes over it.",drainage,low
+"Graffiti on the community hall wall needs to be cleaned.",other,low
+"The park bench is broken and needs to be repaired.",other,low
+"Street dogs have scattered garbage all over the street from an open disposal spot.",garbage,medium
+"Several streetlights on Marine Drive are not functional.",streetlight,high
+"Potholes near the Gateway of India are a disgrace for a tourist spot.",pothole,medium
+"Waterlogging near Churchgate station after a short spell of rain is causing chaos.",drainage,high
+"Garbage disposal near Bandra station is a huge problem.",garbage,high
+"A portion of the sea-facing promenade has been damaged.",other,medium
+"Drainage in the Dharavi area needs a complete overhaul.",drainage,high
+"Streetlights in the lane next to the school are not working.",streetlight,medium
+"The roads in Film City are in terrible condition with lots of potholes.",pothole,medium
+"Waste from the fishing village is not being managed properly.",garbage,medium
+"Open manhole in a busy market area. This is a disaster waiting to happen.",other,high
+"Streetlight pole is rusted and looks like it might fall.",streetlight,medium
+"Garbage burning is happening in our locality every morning, causing air pollution.",garbage,medium
+"Pothole repair work was done poorly and the tar is already coming off.",pothole,medium
+"The new LED streetlights are too bright and are causing a glare.",streetlight,low
+"Can the drain be cleaned to prevent mosquito breeding?",drainage,low
+"Request to place a 'Do Not Litter' sign in the public park.",other,low
+"Collection of dry and wet waste is not happening on separate days as promised.",garbage,low
+"The pavement is uneven near the senior citizen's park.",other,low
+"Why is there a garbage collection fee when the service is so irregular?",garbage,medium
+"The road is sinking slightly at one point. It needs to be inspected.",pothole,high
+"No streetlights are present on the newly constructed bypass road.",streetlight,high
+"Sewer water is getting mixed with drinking water supply. This is a health emergency.",drainage,high
+"Illegal dumping of industrial waste is happening near the lake.",garbage,high
+"A large sinkhole has appeared in the middle of the residential colony road.",pothole,high
+"The entire drainage system has collapsed in our area. Every house is flooded.",drainage,high
+"There's a power line tangled with a streetlight. It looks dangerous.",streetlight,high
+"The bridge has developed a huge crack. It needs an immediate structural audit.",other,high
+"Biomedical waste is being dumped along with regular garbage.",garbage,high
+"The storm drains are completely choked with plastic, leading to urban flooding.",drainage,medium
+"The road quality is so bad that it's damaging our vehicles.",pothole,medium
+"Stray cattle are creating a menace around the garbage dump.",garbage,medium
+"Frequent power cuts are affecting the streetlights as well.",streetlight,medium
+"A foul smell from the nearby drainage channel is making it difficult to live here.",drainage,medium
+"The traffic signal at the main crossroad is broken.",other,medium
+"The zebra crossing paint has faded and needs to be redone.",other,low
+"The bus stop shelter is damaged and needs repair.",other,low
+"Need more frequent rounds of the garbage truck in our area.",garbage,low
+"One of the recently filled potholes has opened up again.",pothole,low
+"Can we have a streetlight that is solar-powered in our lane?",streetlight,low
+"The cover for the main drainage line on our street is missing. It's been a week.",drainage,medium
+"A pile of leaves has been lying on the street corner for days.",garbage,low
+"No water supply in our area for the last 2 days. We are having to buy tankers.",water supply,high
+"We are getting muddy and contaminated water from our taps. It's a serious health risk.",water supply,high
+"The main water pipeline on the street is leaking, and a lot of water is being wasted.",water supply,medium
+"Request to fix the public water tap in the slum area which is broken.",water supply,medium
+"Low water pressure in our apartment building for the past week.",water supply,low
+"The bus shelter at the main market stop is completely broken, offering no protection from sun or rain.",public transport,medium
+"Buses on route 505 are always overcrowded and infrequent.",public transport,medium
+"The last bus service of the day is too early. It needs to be extended by an hour.",public transport,medium
+"The digital display at the bus stop is not working, so we don't know the bus timings.",public transport,low
+"Request for a new bus stop near the residential complex.",public transport,low
+"The children's swing set in the local park is broken and dangerous.",parks,high
+"The public park is not being maintained. The grass is overgrown and there's litter everywhere.",parks,medium
+"The lights in the community park are not working, making it unsafe in the evenings.",parks,medium
+"Request to install benches for senior citizens in the park.",parks,low
+"The water fountain in the park is not functional.",parks,low
+"Loud construction work is happening late at night, violating noise regulations.",noise pollution,high
+"Loud music from a nearby pub is disturbing the peace of the neighborhood every night.",noise pollution,high
+"Constant honking from the traffic jam outside our house is unbearable.",noise pollution,medium
+"Use of loudspeakers for a religious event is going on beyond the permitted time.",noise pollution,medium
+"The factory nearby makes a lot of noise during the day.",noise pollution,low
+"A pack of aggressive stray dogs is roaming our street, has bitten a child.",stray animals,high
+"Stray cattle are sitting in the middle of the road, causing traffic disruption and accidents.",stray animals,high
+"Monkeys are creating a menace in our locality, snatching food and entering houses.",stray animals,medium
+"Request for sterilization drive for stray dogs in the area to control their population.",stray animals,medium
+"A sick/injured dog is lying on the roadside and needs help.",stray animals,medium

@@ -6,7 +6,7 @@
       "es2018",
       "es5"
     ],
-    "module": "commonjs",
+    "module": "es2015",
     "skipLibCheck": true,
     "strict": true,
     "jsx": "react-native",
