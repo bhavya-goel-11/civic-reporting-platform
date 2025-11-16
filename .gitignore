@@ -19,3 +19,11 @@ expo/
 # Mac and Windows
 .DS_Store
 Thumbs.db
+
+# ML models and cache
+*.pth
+*.pkl
+__pycache__/
+*.pyc
+ml_services/output_distilbert_multitask/
+ml_services/model/
