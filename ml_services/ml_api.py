@@ -43,7 +43,9 @@ class DuplicateRequest(BaseModel):
     existing_reports: list  # List of dicts with keys: id, lat, lon, text
 
 # Middleware for API key authentication
-API_KEY = os.getenv("ML_API_KEY", "default_api_key")
+# For local development: if ML_API_KEY is not set, API key validation is disabled
+API_KEY = os.getenv("ML_API_KEY")
+REQUIRE_API_KEY = API_KEY is not None  # Only require API key if explicitly set
 API_KEY_NAME = "X-API-Key"
 api_key_header = APIKeyHeader(name=API_KEY_NAME, auto_error=True)
 
@@ -54,24 +56,44 @@ def validate_api_key(api_key: str = Security(api_key_header)):
             detail="Could not validate API key",
         )
 
-# Apply API key validation to all endpoints
+# Apply API key validation to all endpoints (only if REQUIRE_API_KEY is True)
 @app.middleware("http")
 async def api_key_middleware(request: Request, call_next):
     # Exclude /docs and /openapi.json from API key validation
-    if request.url.path in ["/docs", "/openapi.json"]:
+    if request.url.path in ["/docs", "/openapi.json", "/"]:
         return await call_next(request)
 
+    # Skip API key validation if not required (local dev mode)
+    if not REQUIRE_API_KEY:
+        return await call_next(request)
+
+    # Validate API key if required
     api_key = request.headers.get(API_KEY_NAME)
     if api_key != API_KEY:
-        # Log the invalid API key for debugging
         print(f"Invalid API key: {api_key}")
         raise HTTPException(
             status_code=status.HTTP_403_FORBIDDEN,
             detail="Invalid API key",
         )
-    # Log the valid API key for debugging
-    print(f"Valid API key: {api_key}")
     return await call_next(request)
+
+@app.on_event("startup")
+async def startup_event():
+    if not REQUIRE_API_KEY:
+        print("=" * 60)
+        print("⚠️  WARNING: API key validation is DISABLED")
+        print("⚠️  Set ML_API_KEY environment variable to enable security")
+        print("=" * 60)
+    else:
+        print("✓ API key validation is enabled")
+
+@app.get("/")
+def read_root():
+    return {
+        "service": "Civic Reporting ML API",
+        "status": "running",
+        "api_key_required": REQUIRE_API_KEY
+    }
 
 @app.post("/predict_severity")
 def predict_severity(req: SeverityRequest):
